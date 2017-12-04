@@ -1,0 +1,234 @@
+// ELIMINAR REGISTRO
+try 
+{   
+  //Cargar clase de controlador de base de datos   
+  Class.forName("com.mysql.jdbc.Driver");   
+  //Crear el objeto de conexion a la base de datos   
+  Connection conexion = DriverManager.getConnection("jdbc:mysql://"
+          + "localhost/literatura","root", "");   
+  //Crear objeto Statement para realizar queries a la base de datos   
+  Statement instruccion = conexion.createStatement();   
+  //Un objeto ResultSet, almacena los datos de resultados de una consul
+  cd=JOptionPane.showConfirmDialog(null,"Desea borrar algun registro?"
+          + "","Java-MySQL",JOptionPane.YES_NO_OPTION);
+  //Add
+  ResultSet tabla = instruccion.executeQuery("select *from Autores"); 
+  System.out.println("IdCodigo\tAutor\tFecha de Nac.\tFecha de Fallec."
+  + "\tLugar de Nac.\tVida   \tEstilo  \tRefEpoca");  
+  while(tabla.next())   
+      System.out.println(tabla.getInt(1)+"\t"+tabla.getString(2)+
+              "\t"+tabla.getInt(3)+"\t"+tabla.getInt(4)+"\t"
+              +tabla.getString(5)+"\t"+tabla.getString(6)+"\t"+
+              tabla.getString(7)+"\t"+tabla.getString(8));  
+ }
+catch(ClassNotFoundException e){ System.out.println(e); }   
+catch(SQLException e){ System.out.println("La conexion con Mysql es "
+        + "incorrecta"); }   
+catch(Exception e){ System.out.println(e); }  
+System.out.print("\n");
+System.out.print("\n");
+if (cd==JOptionPane.YES_OPTION)
+{
+  eliminar=JOptionPane.showInputDialog("Ingrese el autor:");
+  try
+  {
+    //Cargar clase de controlador de base de datos   
+    Class.forName("com.mysql.jdbc.Driver");   
+    //Crear el objeto de conexion a la base de datos   
+    Connection conexion = DriverManager.getConnection("jdbc:mysql:"
+              + "//localhost/literatura", "root", "");   
+    //Crear objeto Statement para realizar queries a la base de datos  
+    Statement instruccion = conexion.createStatement();    
+    ResultSet f= instruccion.executeQuery("SELECT autor FROM autor "
+                 + "WHERE autor='"+eliminar+"'");
+         f.next();
+         System.out.println("Autor encontrado ...");
+         codigo=f.getString("autor");
+         instruccion.executeUpdate("DELETE FROM autor WHERE autor='"+
+                            codigo+"'");
+         //Add
+         ResultSet tabla = instruccion.executeQuery("select *from autor"); 
+         System.out.println("IdCodigo\tAutor\tFecha de Nac.\tFecha de "
+         + "Fallec.\tLugar de Nac.\tVida   \tEstilo  \tRefEpoca");  
+         while(tabla.next())   
+         System.out.println(tabla.getInt(1)+"\t"+tabla.getString(2)+
+              "\t"+tabla.getInt(3)+"\t"+tabla.getInt(4)+"\t"
+              +tabla.getString(5)+"\t"+tabla.getString(6)+"\t"+
+              tabla.getString(7)+"\t"+tabla.getString(8));  
+ 
+        }
+        catch(ClassNotFoundException e){ System.out.println(e); }   
+        catch(SQLException e){ System.out.println("No es un usuario de "
+              + "la tabla autor"); }   
+        catch(Exception e){ System.out.println(e); }
+        }
+
+        
+
+
+
+
+
+
+    
+/*try
+      { 
+      //Cargar clase de controlador de base de datos   
+      Class.forName("com.mysql.jdbc.Driver");   
+     //Crear el objeto de conexion a la base de datos   
+     Connection conexion = DriverManager.getConnection("jdbc:mysql://"
+             + "localhost/colegio", "root", "");   
+     //Crear objeto Statement para realizar queries a la base de datos   
+     Statement instruccion = conexion.createStatement();   
+     ResultSet tabla = instruccion.executeQuery("select *from alumo"); 
+     System.out.println("zzzCodigo\tApellido\tProm\tExParcial");  
+     while(tabla.next())   
+        System.out.println(tabla.getString(1)+"\t"+tabla.getString(2)+
+                "\t"+tabla.getString(3)+"\t"+tabla.getInt(4));  
+     }
+     catch(ClassNotFoundException e){ System.out.println(e); }   
+     catch(SQLException e){ System.out.println("La conexion con Mysql "
+             + "es incorrecta"); }   
+     catch(Exception e){ System.out.println(e); }  
+     System.out.print("\n");
+     System.out.print("\n");
+*/ 
+
+//Insertar datos en la tabla alumno ingresando desde teclado
+ 
+/    
+try
+{
+  //Cargar clase de controlador de base de datos
+  Class.forName("com.mysql.jdbc.Driver");
+  //Crear el objeto de conexion a la base de datos
+  Connection conexion = DriverManager.getConnection("jdbc:"
+         + "mysql://localhost/literatura","root", "");
+  //Crear objeto Statement para realizar queries a la base de datos
+  Statement instruccion = conexion.createStatement();
+  //Un objeto ResultSet, almacena los datos de resultados de una consulta
+  cd=JOptionPane.showConfirmDialog(null,"Desea añadir "
+   + "registro?","Java-MySQL",JOptionPane.YES_NO_OPTION);
+  if (cd==JOptionPane.YES_OPTION)
+  {
+    autor=JOptionPane.showInputDialog("Ingrese nombre y apellido del"
+                     + " autor");
+    fechanac=Integer.parseInt(JOptionPane.showInputDialog("Ingrese fecha de "
+              + " nacimiento "));
+    fechafall=Integer.parseInt(JOptionPane.showInputDialog(""
+            + "Ingrese fecha de fallecimiento"));
+    lugarnac=JOptionPane.showInputDialog("Ingrese lugar de  "
+                      + " nacimiento");
+    vida=JOptionPane.showInputDialog("Ingrese vida del "
+                + " autor");
+    estilo=JOptionPane.showInputDialog(""
+                + "Ingrese el estilo del autor ");
+               
+    refepoca=JOptionPane.showInputDialog("Ingrese ref epoca");
+
+    ResultSet f = instruccion.executeQuery("SELECT * FROM autor");
+    while(f.next())
+    {}
+    instruccion.executeUpdate("INSERT INTO autor (Autor,FechaNac,"
++   "FechaFallecimiento,Lugar Nacimiento, Vida, Estilo, RefEpoca) "
++   "VALUES ('"+autor+"','"+fechanac+"','"+fechafall+"','"+lugarnac
++"','"+vida+"','"+estilo+"','"+refepoca+"')");
+  }
+ }
+ catch(ClassNotFoundException e)
+ { System.out.println(e); }
+ catch(SQLException e)
+ { System.out.println(e); }
+ catch(Exception e){ System.out.println(e); }
+System.out.print("\n");
+System.out.print("\n");
+
+
+
+try
+{   
+  //Cargar clase de controlador de base de datos
+  Class.forName("com.mysql.jdbc.Driver");
+  //Crear el objeto de conexion a la base de datos
+  Connection conexion = DriverManager.getConnection("" +
+      "jdbc:mysql://localhost/universidad","root", "");
+  //Crear objeto Statement para realizar queries a la base de datos
+  Statement instruccion = conexion.createStatement();
+  //Un objeto ResultSet, almacena los datos de resultados de una consulta
+  ResultSet tabla = instruccion.executeQuery("SELECT *FROM alumno");
+  System.out.println(" xxx Listado de Alumnos ");
+  System.out.println("codigo\tApellido\tcurso\tprofesor\tprom");
+  System.out.println("-------------------------------------------");
+  while(tabla.next())
+  {    
+     System.out.println(tabla.getString(1)+  "\t"  +tabla.getString(2)+ "\t" +  tabla.getString(3)+"\t"+tabla.getString(4)
+           +"\t"  +tabla.getDouble(5));
+  }   
+  System.out.println("-------------------------------");
+ } 
+ catch(ClassNotFoundException e)
+ {
+   System.out.println(e);
+ }
+ catch(SQLException e)
+ {
+   System.out.println(e);
+ }
+ catch(Exception e)
+ {
+   System.out.println(e);
+ } 
+ 
+}}
+
+
+
+ 
+//consulta
+/ try
+    {
+      //Cargar clase de controlador de base de datos
+      Class.forName("com.mysql.jdbc.Driver");
+      //Crear el objeto de conexion a la base de datos
+      Connection conexion = DriverManager.getConnection("jdbc:mysql://"
+                 + "localhost/literatura","root","");
+      //Crear objeto Statement para realizar queries a la base de datos
+      Statement instruccion = conexion.createStatement();
+      //Un objeto ResultSet, almacena los datos de resultados de una consulta
+      cd=JOptionPane.showConfirmDialog(null,"Desea hacer una consulta ?"
+           ,"Java-MySQL",JOptionPane.YES_NO_OPTION);
+      if (cd==JOptionPane.YES_OPTION)
+      {
+        codigo=JOptionPane.showInputDialog("Ingrese nombre del autor");
+        try
+         {
+            ResultSet tabla=instruccion.executeQuery("SELECT *FROM autor"
+                             + " WHERE autor='"+codigo+"'");
+            System.out.println();
+            System.out.println();
+            System.out.println("Autor encontrado!!!! Sus datos son: ");
+            System.out.println("---------------------------------------------"
+         + "               ---------------------------");
+            System.out.println("IdCodigo\tAutor\tFecha de Nac.\tFecha de Fallec."
+           + "\tLugar de Nac.\tVida   \tEstilo  \tRefEpoca");  
+           System.out.println(tabla.getInt(1)+"\t"+tabla.getString(2)+
+              "\t"+tabla.getInt(3)+"\t"+tabla.getInt(4)+"\t"
+              +tabla.getString(5)+"\t"+tabla.getString(6)+"\t"+
+              tabla.getString(7)+"\t"+tabla.getString(8));  
+            System.out.println("---------------------------------------------"
+         + "-------------");
+         }
+         catch(SQLException ex)
+         {
+             System.out.println(" No es un usuario de la tabla autor \n");
+         }
+       }
+     }
+     catch(ClassNotFoundException e){ System.out.println(e); }
+     catch(SQLException e){ System.out.println("La conexion con Mysql es "
+     + "incorrecta"); }
+     catch(Exception e){ System.out.println(e); }
+     System.out.print("\n");
+     System.out.print("\n");
+}
+}

@@ -1,0 +1,244 @@
+package demot;
+
+import javax.swing.JOptionPane;
+
+
+public class Principal { 
+    public static void main(String[] args) {
+        
+        String persona,nom,sex;
+        int edad;
+               
+        persona = JOptionPane.showInputDialog("Ingrese el tipo de Persona");
+            
+            if (persona.compareTo("vendedor")==0){
+                
+                int ht,pxh,com;
+                
+                /*var de la clase padre*/
+                nom = JOptionPane.showInputDialog("Ingrese nombre del Vendedor");
+                sex = JOptionPane.showInputDialog("Ingrese el sexo del Vendedor");
+                edad = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la edad del Vendedor"));
+                
+                /*var de la propia clase hija*/
+                ht = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la cantidad de horas laboradas"));
+                pxh = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el pago por horas laboradas"));
+                com = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la comision generada"));
+                
+                Vendedor objVen = new Vendedor(ht,pxh,com,nom,sex,edad);
+                
+                procesar(objVen);
+            
+            }else{
+            
+                String pro;
+                int cant;
+                double pre,desc;
+                
+                /*var de la clase padre*/
+                nom = JOptionPane.showInputDialog("Ingrese nombre del Cliente");
+                sex = JOptionPane.showInputDialog("Ingrese el sexo del Cliente");
+                edad = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la edad del Cliente"));
+                
+                /*var de la propia clase hija*/
+                pro = JOptionPane.showInputDialog("Ingrese el nombre del Producto Comprado");
+                pre = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el precio del Producto"));
+                cant = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la cantidad del Producto"));
+                desc = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el descuento del Producto"));
+                
+                Cliente  objCli = new Cliente(pro,pre,cant,desc,nom,sex,edad);
+                
+                /*llamo al metodo*/
+                procesar(objCli);
+                       
+            }
+   
+    }
+       
+        
+    static void procesar(Persona n){
+        
+        System.out.println("Su Codigo de ID es"+ n.Codigo());   
+                             
+        if( n instanceof Vendedor){
+          
+            double sn = ((Vendedor)n).sueldoNeto();
+            String dat = ((Vendedor)n).Datos();
+
+            System.out.println("El Sueldo Neto del Vendedor es: "+sn);
+            System.out.println("Los Datos del Vendedor son: "+dat);
+            
+        }else{
+            
+            double pp = ((Cliente)n).PagoProduct();
+            String dat = ((Cliente)n).Datos();
+
+            System.out.println("El pago del Cliente es: "+" "+pp);
+            System.out.println("Los Datos del Cliente son: "+dat);
+         
+        }
+           
+    }  
+     
+  }
+    
+
+
+
+
+
+
+
+package demot;
+
+public abstract class Persona {
+    
+    protected String nom,sex;
+    protected int edad;
+
+    public Persona(String nom, String sex, int edad) {
+        this.nom = nom;
+        this.sex = sex;
+        this.edad = edad;
+    }
+    
+    
+    public abstract String Datos();
+    
+    public String Codigo(){  
+        return (int)Math.random()*500+50+""+nom.charAt(0);
+    }
+
+    
+    @Override
+    public String toString() {
+        return "Persona{" + "Nombre: " + nom + ", Sexo: " + sex + ", Edad: " + edad + '}';
+    }
+    
+    
+    
+}
+
+
+############################################################
+
+public interface InterfaceAlumno {
+    
+    public void mostrarDatos();
+    public double promedio();
+    
+}
+
+
+
+
+
+public class Alumno {
+    
+   private String cod,apnom,sexo,nivel;
+   private int edad;
+   private double ep,ef,pp;
+
+    public Alumno() {
+    }
+
+    public String getCod() {
+        return cod;
+    }
+
+    public void setCod(String cod) {
+        this.cod = cod;
+    }
+
+    public String getApnom() {
+        return apnom;
+    }
+
+    public void setApnom(String apnom) {
+        this.apnom = apnom;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
+    public String getNivel() {
+        return nivel;
+    }
+
+    public void setNivel(String nivel) {
+        this.nivel = nivel;
+    }
+
+    public int getEdad() {
+        return edad;
+    }
+
+    public void setEdad(int edad) {
+        this.edad = edad;
+    }
+
+    public double getEp() {
+        return ep;
+    }
+
+    public void setEp(double ep) {
+        this.ep = ep;
+    }
+
+    public double getEf() {
+        return ef;
+    }
+
+    public void setEf(double ef) {
+        this.ef = ef;
+    }
+
+    public double getPp() {
+        return pp;
+    }
+
+    public void setPp(double pp) {
+        this.pp = pp;
+    }
+   
+   
+    
+    
+}
+
+
+public class Primaria extends Alumno implements InterfaceAlumno{
+
+    public Primaria() {
+    }
+    
+    public double promedio(){
+    
+        return (getEp()+getEf()+getPp())/3;
+    
+    }
+
+    @Override
+    public void mostrarDatos() {
+        
+        System.out.println(getCod()+" "+getApnom()+""+getSexo()+" "+getEdad()+""
+                +getNivel()+""+getEp()+""+getEf()+""+getPp()+promedio());
+    }
+    
+    
+    
+
+ 
+   /* public double promedio() {
+       
+    }*/
+    
+    
+    
+    
+}

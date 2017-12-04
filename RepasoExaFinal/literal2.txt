@@ -1,0 +1,119 @@
+//modificacion
+/*try
+    {
+      //Cargar clase de controlador de base de datos
+      Class.forName("com.mysql.jdbc.Driver");
+      //Crear el objeto de conexion a la base de datos
+      Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost/colegio","root","");
+      //Crear objeto Statement para realizar queries a la base de datos
+      Statement instruccion = conexion.createStatement();
+      //Un objeto ResultSet, almacena los datos de resultados de una consulta
+      cd=JOptionPane.showConfirmDialog(null,"Desea modificar registro?","Java-MySQL",JOptionPane.YES_NO_OPTION);
+      if (cd==JOptionPane.YES_OPTION)
+      {
+         codigo=JOptionPane.showInputDialog("Ingrese codigo del alumno que desea modificar ");
+         ResultSet tabla=instruccion.executeQuery("SELECT *FROM alumo WHERE codalum='"+codigo+"'");
+         System.out.println();
+         System.out.println();
+         System.out.println("Alumno encontrado!!!! Sus datos son: ");
+         System.out.println("------------------------------------------------------------------------");
+         System.out.println("CODIGO\tAPELLIDOS Y NOMB. \tPROMEDIO \t CURSO");
+         System.out.println("----------------------------------------------------------");
+         while(tabla.next())
+             System.out.println(tabla.getString(1)+"\t"+ tabla.getString(2)+"\t"+tabla.getDouble(3)+"\t"+tabla.getString(4));
+         System.out.println("----------------------------------------------------------");
+         try
+         {
+             ResultSet f=instruccion.executeQuery("SELECT codalum FROM alumo WHERE codalum='"+codigo+"'");
+             f.next();
+             String campo=JOptionPane.showInputDialog("Que campo dato desea modificar? ");
+             if(campo.compareTo("codigo")==0)
+             {
+               String codn=JOptionPane.showInputDialog("Ingrese nuevo codigo del alumno ");
+               codigo=f.getString("codalum");
+               instruccion.executeUpdate("update alumo  set codalum='"+codn+"' where codalum='"+codigo+"'");
+             }
+             else
+              if(campo.compareTo("apellido")==0)
+              {
+                       
+                 String apelln=JOptionPane.showInputDialog("Ingrese nuevo apellido y nombre del alumno ");
+                 codigo=f.getString("codalum");
+                 instruccion.executeUpdate("update alumo  set apnom='"+apelln+"' where codalum='"+codigo+"'");
+              }
+                                
+              else
+                if(campo.compareTo("curso")==0)
+                 {
+                    String codcurson=JOptionPane.showInputDialog("Ingrese nuevo codigo del curso ");
+                    codigo=f.getString("codalum");
+                    instruccion.executeUpdate("update alumo  set codcur='"+codcurson+"' where codalum='"+codigo+"'");
+                 }
+                 else
+                  if(campo.compareTo("promedio")==0)
+                  {
+                    double promx=Integer.parseInt(JOptionPane.showInputDialog("Ingrese promedio"));
+                    codigo=f.getString("codalum");
+                    instruccion.executeUpdate("update alumo set prom='"+promx+"' where codalum='"+codigo+"'");
+                  }
+                  
+              }
+              catch(SQLException ex)
+              {
+                 System.out.println(" No es un usuario de la tabla alumno \n");
+              }
+           }
+           ResultSet tabla = instruccion.executeQuery("select *from alumo");
+           System.out.println(" xxx Listado de Alumnos ");
+           System.out.println("codigo\tApellido\tPromedio\tCurso");
+           System.out.println("------------------------------------------------------");
+          while(tabla.next())
+          {    
+           System.out.println(tabla.getString(1)+  "\t"  +
+           tabla.getString(2)+ "\t" +  tabla.getDouble(3)+"\t"+tabla.getString(4));
+          }   
+          System.out.println("-------------------------------");
+    } 
+    catch(ClassNotFoundException e)
+    {
+       System.out.println(e);
+    }
+    catch(SQLException e)
+    {
+       System.out.println(e);
+    }
+    catch(Exception e)
+    {
+       System.out.println(e);
+     } 
+}}
+
+
+
+
+
+
+
+
+
+
+/*
+try {   
+//Cargar clase de controlador de base de datos   
+Class.forName("com.mysql.jdbc.Driver");   
+//Crear el objeto de conexion a la base de datos   
+Connection conexion = DriverManager.getConnection("jdbc:mysql://localhost:8081/colegio", "root", "123");   
+//Crear objeto Statement para realizar queries a la base de datos   
+Statement instruccion = conexion.createStatement();   
+//Un objeto ResultSet, almacena los datos de resultados de una consulta   
+ResultSet tabla = instruccion.executeQuery("SELECT * FROM curso"); 
+System.out.println("Nombre\tCosto\tCantidadHoras");  
+while(tabla.next())   
+System.out.println(tabla.getString(1)+  "\t"  +    tabla.getDouble(2)+ "\t"  +  tabla.getInt(3));  
+} 
+catch(ClassNotFoundException e){ System.out.println(e); }   
+catch(SQLException e){ System.out.println(e); }   
+catch(Exception e){ System.out.println(e); }  
+}
+}
+*/

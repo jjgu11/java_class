@@ -1,0 +1,27 @@
+La solución del siguiente caso de Pagos de socios deberá estar Orientada a Objetos (abstracción, ocultamiento de la información, encapsulación y Arreglo de Objetos)
+
+Diseñe una aplicación utilizando polimorfismo, para el  pago que deben realizar los distintos tipos de socios de un club social.
+
+La aplicación se compondrá de una clase padre abstracta Socios que contendrá un método abstracto importe que permita calcular los pagos que incluye la cuota mensual, los aportes dependiendo del tipo de socio y la mora siempre y cuando se haya pasado de la fecha de pago.
+
+La clase socio tiene como atributos: tipo de socio (ordinario, asociado o exclusivo), código del socio, apellidos y nombres, sexo, estado civil, cuota mensual, mora. Constructor con parámetros, los métodos getter y setter y el método toString().
+
+De la clase socio heredaran tres clases llamadas Asociados, Ordinarios y Exclusivos que implementaran el método abstracto que calculara el importe a pagar por el socio, habiendo un aporte especial solo para socios exclusivos y la mora se aplicara 10% para ordinario, 15% para asociados y 20% para exclusivos. La clase Exclusivo incorporara un nuevo atributo aporte especial.
+
+Diseñe ahora la clase principal llamada GestionPagos que permita gestionar un máximo de 50 socios.
+Cuenta con atributos, tres  arreglos de tamaño 50 por cada  tipo de Socio.
+Contará con los siguientes métodos: un método para imprimir los datos del socio, otro método para imprimir la importe total a pagar por tipo de socio y otro método para imprimir reporte.
+Simule dicha aplicación ingresando los datos hasta que el usuario decida no ingresar más datos.
+
+Posteriormente se mostraran toda la información de todos los socios.
+
+Maneje el siguiente menú de opciones:
+a)	Ingreso de datos
+b)	Reporte
+c)	Consulta
+d)	Salir
+
+Los datos de los socios se deberán almacenar en una  tabla socios de una base de datos llamada club.
+
+
+Considere el siguiente diagrama de clases:

@@ -1,0 +1,271 @@
+package pregunta.pkg1;
+
+import javax.swing.JOptionPane;
+import java.util.ArrayList;
+import java.sql.*;
+/**
+ *
+ * @author PC
+ */
+public class GestiondePagos {
+    static ArrayList listao=new ArrayList();
+    static ArrayList listaa=new ArrayList();
+    static ArrayList listae=new ArrayList();
+    static int cont=0;
+    public static void main(String[] args) {
+        LimpiarBD();
+        int opc;
+        do{
+            opc=Integer.parseInt(JOptionPane.showInputDialog(
+                    "     Menu\n"
+                    +"---------------------\n"
+                    +"1.Ingreso de Datos\n"
+                    +"2.Reporte\n"
+                    +"3.Consulta\n"
+                    +"4.Eliminar\n"
+                    +"5.Salir\n"
+                    +"---------------------\n"
+                    +"Ingrese su opcion==>"));
+            switch(opc){
+                case 1: if(cont<50){añadir();}else{JOptionPane.showMessageDialog(null,""
+                        + "Ya no se puede ingresar mas datos");};break;
+                case 2: reporte();break;
+                case 3: busqueda();break;                
+                case 4: eliminar();break;                
+            }
+        }while(opc<=4); 
+      }
+    static void LimpiarBD(){
+        try
+        {
+            Conectar conectar = new Conectar();
+            Statement st =conectar.conectar();
+            ResultSet f = st.executeQuery("TRUNCATE socios");        
+         }
+        catch(SQLException e)
+        {
+            JOptionPane.showMessageDialog(null,"El error es: "+e);
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null,"El error es: "+e);
+        } 
+    }
+    static void añadir(){
+        String resp,tipo,cod,apnom,sexo,ecivil,mor;
+        double cuota,mora,aporte=0;
+        do{
+            cont++;
+            String[]tipos = {"Ordinario","Asociado","Exclusivo"};            
+            tipo=(String) (JOptionPane.showInputDialog(null, "Tipo", "Ingrese tipo", 
+                    JOptionPane.INFORMATION_MESSAGE, null, tipos, tipos[0]));
+            cod=JOptionPane.showInputDialog("Ingrese codigo del socio");
+            apnom=JOptionPane.showInputDialog("Ingrese apellidos y nombres");
+            String[]sex = {"Masculino","Femenino"};
+            sexo=(String) (JOptionPane.showInputDialog(null, "Genero", "Ingrese genero", 
+                    JOptionPane.INFORMATION_MESSAGE, null, sex, sex[0]));
+            String[]civi = {"Soltero","Casado"};
+            ecivil=(String) (JOptionPane.showInputDialog(null, "Estado Civil", "Ingrese"
+                + " estado civil", JOptionPane.INFORMATION_MESSAGE, null, civi, civi[0]));
+            cuota=Double.parseDouble(JOptionPane.showInputDialog("Ingrese cuota"));
+            
+            mor=JOptionPane.showInputDialog("¿Pago a tiempo?(si/no)");
+            if(tipo.compareTo("Ordinario")==0){
+                if(mor.compareToIgnoreCase("no")==0){
+                mora=cuota/10;
+            }else{
+                mora=0;
+            }
+                Ordinario ord=new Ordinario(tipo,cod,apnom,sexo,ecivil,cuota,mora);
+                listao.add(ord);
+            }else{
+                if(tipo.compareTo("Asociado")==0){
+                  if(mor.compareToIgnoreCase("no")==0){
+                        mora=cuota*15/100;
+                     }else{
+                        mora=0;
+                     }
+                  Asociado asoc=new Asociado(tipo,cod,apnom,sexo,ecivil,cuota,mora);
+                  listaa.add(asoc);
+                }else{
+                   if(mor.compareToIgnoreCase("no")==0){
+                        mora=cuota/5;
+                    }else{
+                         mora=0;
+                    }
+                   aporte=Double.parseDouble(JOptionPane.showInputDialog("Ingrese el aporte especial"));
+                   Exclusivo exc=new Exclusivo(aporte,tipo,cod,apnom,sexo,ecivil,cuota,mora);
+                   listae.add(exc);
+                }
+            }
+             try
+        {
+            Conectar conectar = new Conectar();
+            Statement st =conectar.conectar();
+          ResultSet f = st.executeQuery("SELECT * FROM socios");
+          while(f.next())
+                    {}
+          st.executeUpdate("INSERT INTO socios (tiposocio,codsocio,apellnom,sexo,ecivil,cuota,mora,aporte) "
+                  + "VALUES ('"+tipo+"','"+cod+"','"+apnom+"','"+sexo+"','"+ecivil+"','"+cuota+"','"+mora+"','"+aporte+"')");
+          JOptionPane.showMessageDialog(null, "Registro hecho con exito!");
+         }
+        catch(SQLException e)
+        {
+            JOptionPane.showMessageDialog(null,"El error es: "+e);
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null,"El error es: "+e);
+        }            
+            if(cont<50){
+                resp=JOptionPane.showInputDialog("¿Desea continuar?");
+            }else{
+                resp="no";
+            }
+        }
+             
+        while(resp.compareToIgnoreCase("si")==0);
+    }
+    static void listar(Socios x)
+    {
+        if(x instanceof Ordinario)
+        {
+            System.out.println((Ordinario) x);
+            System.out.println("Importe: "+((Ordinario)x).importe());
+        }
+        else
+        {
+             if(x instanceof Asociado)
+        {
+            System.out.println((Asociado)x);
+            System.out.println("Importe: "+((Asociado)x).importe());
+            }else{
+                 System.out.println((Exclusivo)x);
+                 System.out.println("Importe "+((Exclusivo)x).importe());
+             }
+        }
+    }
+    static void busqueda(){
+        String tipbus;        
+        String[]tipos = {"Ordinario","Asociado","Exclusivo"};            
+         tipbus=(String) (JOptionPane.showInputDialog(null, "Tipo", "Ingrese tipo", JOptionPane.INFORMATION_MESSAGE, null, tipos, tipos[0]));
+         if(tipbus.compareTo("Ordinario")==0){
+            busquedao();
+        }else{
+             if(tipbus.compareTo("Asociado")==0){
+            busquedaa();
+             }else {
+                 busquedae();
+             }
+        }
+    }
+    static void busquedao(){
+        String cod;
+        cod=JOptionPane.showInputDialog("Ingrese codigo del trabajador");
+        for (int j = 0; j < listao.size(); j++) {
+           Ordinario ord=(Ordinario)listao.get(j);
+           if((ord.getCodsocio()).compareTo(cod)==0){
+               listar(ord);
+           }
+        }
+    }
+    static void busquedaa(){
+        String cod;
+        cod=JOptionPane.showInputDialog("Ingrese codigo del trabajador");
+        for (int j = 0; j < listaa.size(); j++) {
+           Asociado asoc=(Asociado)listaa.get(j);
+           if((asoc.getCodsocio()).compareTo(cod)==0){
+               listar(asoc);
+           }
+        }
+    }
+    static void busquedae(){
+        String cod;
+        cod=JOptionPane.showInputDialog("Ingrese codigo del trabajador");
+        for (int j = 0; j < listae.size(); j++) {
+           Exclusivo exc=(Exclusivo)listae.get(j);
+           if((exc.getCodsocio()).compareTo(cod)==0){
+               listar(exc);
+           }
+        }
+    }
+    static void reporte(){
+        System.out.println("Lista de socios");
+        System.out.println("===========================");
+        for (int j = 0; j < listao.size(); j++) {
+           Ordinario ord=(Ordinario)listao.get(j);
+            listar(ord);  
+            System.out.println("===========================");       
+        }
+          for (int j = 0; j < listaa.size(); j++) {
+           Asociado asoc=(Asociado)listaa.get(j);
+               listar(asoc); 
+               System.out.println("===========================");
+                 
+        }
+          for (int j = 0; j < listae.size(); j++) {
+           Exclusivo exc=(Exclusivo)listae.get(j);
+               listar(exc); 
+               System.out.println("===========================");
+       
+        }
+    }
+    static void eliminar(){
+        String tipbus;        
+         String[]tipos = {"Ordinario","Asociado","Exclusivo"};            
+         tipbus=(String) (JOptionPane.showInputDialog(null, "Tipo", "Ingrese tipo", JOptionPane.INFORMATION_MESSAGE, null, tipos, tipos[0]));
+        String cod;
+        cod=JOptionPane.showInputDialog("Ingrese codigo del trabajador");        
+        if(tipbus.compareTo("Ordinario")==0){
+            eliminao(cod);
+        }else{
+             if(tipbus.compareTo("Asociado")==0){
+            eliminaa(cod);
+             }else {
+                 eliminae(cod);
+             }
+        }
+         try
+        {
+            Conectar conectar = new Conectar();
+            Statement st =conectar.conectar();     
+         st.executeUpdate("DELETE FROM socios WHERE codsocio='"+cod+"'");
+          JOptionPane.showMessageDialog(null, "Eliminacion hecha con exito!");
+         }
+        catch(SQLException e)
+        {
+            JOptionPane.showMessageDialog(null,"El error es: "+e);
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(null,"El error es: "+e);
+        }           
+        
+    }
+    
+    static void eliminao(String cod){
+        for (int j = 0; j < listao.size(); j++) {
+           Ordinario ord=(Ordinario)listao.get(j);
+           if((ord.getCodsocio()).compareTo(cod)==0){
+               listao.remove(ord);
+           }
+        }
+    }
+    static void eliminaa(String cod){
+        for (int j = 0; j < listaa.size(); j++) {
+           Asociado asoc=(Asociado)listaa.get(j);
+           if((asoc.getCodsocio()).compareTo(cod)==0){
+               listaa.remove(asoc);
+           }
+        }
+    }
+    static void eliminae(String cod){
+        for (int j = 0; j < listae.size(); j++) {
+           Exclusivo exc=(Exclusivo)listae.get(j);
+           if((exc.getCodsocio()).compareTo(cod)==0){
+               listae.remove(exc);
+           }
+        }
+    }
+    
+}
